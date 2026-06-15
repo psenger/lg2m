@@ -1,0 +1,107 @@
+# Agent OS Standards Index
+
+error-handling:
+  error-handling:
+    description: API error categorization, token limits, output-parsing failures, and chain recovery strategies for LLM-powered apps
+
+global:
+  ai-ml-security:
+    description: Security threats and defenses for LangChain/LLM apps (prompt injection, API-key protection, inference endpoint hardening)
+  clean-code:
+    description: Naming, readability, and documentation conventions for LangChain chains, prompts, and components
+  coding-conventions:
+    description: Python project structure, import organization, config patterns, and async/await defaults for LangChain apps
+  composition:
+    description: LCEL pipe-operator syntax and RunnableParallel/RunnableBranch patterns for building composable chains
+  coupling-cohesion:
+    description: Low coupling and high cohesion as modular-design measures, with dependency-budget and acyclic principles
+  delegation:
+    description: Forwarding calls to injected collaborators as a behavioral alternative to inheritance (basis for Decorator/Proxy/Facade)
+  dry-orthogonal-arity:
+    description: DRY, orthogonal design, and function arity applied to LangChain with LCEL composition and reusable building blocks
+  dry:
+    description: Knowledge duplication versus accidental structural similarity, with the Rule of Three and premature-abstraction risk
+  gang-of-four:
+    description: The 23 classical GoF patterns by creational/structural/behavioral category, emphasizing when and why to use each
+  hexagonal-architecture:
+    description: Ports-and-adapters architecture with driving/driven adapters; the structural basis for the mocking rules
+  object-interaction:
+    description: Law of Demeter and Tell-Don't-Ask governing how objects communicate to reduce coupling and testability pain
+  progressive-enhancement:
+    description: Build a minimal functional core, then layer optional enhancements with graceful degradation on failure
+  rest-api:
+    description: FastAPI conventions for serving chains over REST (streaming, timeouts, rate limiting, OWASP security headers)
+  secure-code-review:
+    description: Security-review checklist for LangChain code (prompt injection, secrets, input validation, LLM threats, data flow)
+  simplicity:
+    description: YAGNI and KISS heuristics with Kent Beck's Four Rules of Simple Design as the refactoring criterion
+  solid-principles:
+    description: SOLID applied to LangChain via chain composition, factory functions, and LLM-provider abstraction rules
+  solid:
+    description: The five SOLID principles (SRP, OCP, LSP, ISP, DIP) governing testability, extension, and hexagonal architecture
+  tdd-workflow:
+    description: Red-Green-Refactor cycle, vertical slices, spec-first development, and boundary-mocking rules
+  value-objects:
+    description: Immutable types defined by value not identity, eliminating primitive obsession with validation at construction
+
+ir:
+  enums:
+    description: Kind enums subclass (str, Enum) for string-valued compare/serialize; no StrEnum (3.10 target)
+  identity:
+    description: Frozen dataclass identity via compare=False; per-type identity keys and the Edge two-edges rule
+  mutability:
+    description: GraphModel is the only mutable IR container; build-then-construct rule for Node.meta on frozen instances
+
+patterns:
+  adapter:
+    description: Wrap non-LangChain services behind LangChain interfaces (Runnable, Retriever, Tool) to integrate external systems
+  bridge:
+    description: Separate abstraction from implementation so both evolve independently; LangChain's core is built on this
+  builder:
+    description: Construct complex chains, prompts, and agents step-by-step through a builder interface
+  circuit-breaker:
+    description: Open the circuit after a failure threshold to prevent cascade failures when calling external services
+  command:
+    description: Encapsulate agent tool invocations and pipeline operations as structured Pydantic command objects
+  decorator:
+    description: Extend chain and tool behavior without modifying their source using decorators and wrappers
+  dependency-injection:
+    description: Inject LLMs, retrievers, and services into chains rather than hardcoding them for testability and flexibility
+  error-first:
+    description: Graceful degradation with fallback chains, explicit error handling, and recovery mechanisms for LLM failures
+  facade:
+    description: Provide a simplified domain-meaningful interface hiding complex retriever, reranker, prompt, and LLM components
+  factory:
+    description: Create LLMs, chains, tools, and agents through factory functions that hide instantiation and configuration
+  flyweight:
+    description: Share expensive immutable objects (LLM clients, embeddings, prompt templates) across invocations
+  guards:
+    description: Validate or transform data at chain boundaries via RunnableLambda steps to catch bad input/output early
+  lazy-loading:
+    description: Defer initialization of expensive resources like LLM clients and vector stores until first use
+  method-chaining:
+    description: Compose chains with the LCEL pipe and Runnable methods (.with_config/.with_fallbacks/.with_retry) for immutable config
+  middleware:
+    description: Intercept and transform chain execution via callbacks and runnable wrappers for observability
+  module:
+    description: Organize LangChain components into cohesive packages by type with clear public APIs via __init__.py
+  object-pool:
+    description: Manage reusable expensive resources (connection pools, vector-store connections, concurrency limits) efficiently
+  observer:
+    description: Monitor chain execution transparently via LangChain's callback system for logging, tracing, and metrics
+  proxy:
+    description: Control access to LLMs and chains through caching, rate-limiting, and fallback proxies
+  repository:
+    description: Provide a collection-like interface for domain objects, hiding persistence behind a typed Protocol
+  singleton:
+    description: Ensure expensive stateless resources (LLM clients, embeddings) have exactly one instance for the app lifetime
+  state:
+    description: Model distinct phases as separate state representations so behavior changes with state; foundation of LangGraph
+  strategy:
+    description: Define interchangeable components (retrievers, parsers, rerankers, LLMs) behind a Protocol to decouple pipelines
+
+testing:
+  mocking:
+    description: Mock at system boundaries with FakeChatModel; preserve hexagonal architecture by replacing ports, not internals
+  testing:
+    description: Pytest + pytest-asyncio unit testing with mocked LLMs for deterministic chain logic and integration patterns

@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "langgraph-to-from-mermaid"
+version = "0.0.1"
+description = "Bidirectional, drift-detecting sync between a LangGraph/LangChain graph's topology and a Mermaid stateDiagram-v2 contract."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Philip A. Senger", email = "philip.a.senger@cngrgroup.com" }]
+keywords = ["langgraph", "langchain", "mermaid", "stateDiagram", "drift", "documentation"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Documentation",
+    "Typing :: Typed",
+]
+
+# Runtime deps for the foundation layer: stdlib only, except the TOML backport on
+# 3.10 (stdlib `tomllib` is 3.11+). See config/loader.py for the import shim.
+dependencies = [
+    "tomli >= 2.0 ; python_version < '3.11'",
+    "typer >= 0.12",
+]
+
+[project.optional-dependencies]
+# Framework integration is isolated behind this extra. Unused by the foundation
+# layer (no introspect/* yet); declared now so later layers depend on the extra,
+# not on a top-level import.
+langgraph = [
+    "langgraph >= 1.2",
+    "langchain-core >= 1.4",
+]
+dev = [
+    "pytest >= 8",
+    "pytest-cov >= 5",
+    "ruff >= 0.5",
+]
+
+[project.scripts]
+lg2m = "lg2m.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/psenger/langgraph_to_from_mermaid"
+Repository = "https://github.com/psenger/langgraph_to_from_mermaid"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lg2m"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Coverage is measured on every run and gated at 90% on the lg2m package.
+# For a focused subset run, add --no-cov to skip the gate, e.g.
+#   pytest tests/test_router.py --no-cov
+addopts = "--cov=lg2m --cov-report=term-missing --cov-fail-under=90"
+markers = [
+    "langgraph: tests that import langgraph / langchain-core (later layers only)",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

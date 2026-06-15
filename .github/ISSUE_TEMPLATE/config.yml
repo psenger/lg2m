@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question or start a discussion
+    url: https://github.com/psenger/langgraph_to_from_mermaid/discussions
+    about: Questions, ideas, and general conversation live in Discussions.

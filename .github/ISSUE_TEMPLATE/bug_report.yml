@@ -1,0 +1,86 @@
+name: Bug Report
+description: Something is not working as expected.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, check the [open issues](https://github.com/psenger/langgraph_to_from_mermaid/issues)
+        to see if this has already been reported. See [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md) for the workflow.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: When I run `lg2m check` against my graph, it reports …
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps that reliably trigger the bug.
+      placeholder: |
+        1. Create a graph with …
+        2. Run `lg2m check`
+        3. See error …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What actually happened? Paste any error output or stack trace here.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: lg2m-version
+    attributes:
+      label: lg2m version
+      description: "`import lg2m; print(lg2m.__version__)`"
+      placeholder: "0.1.0a1"
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: "`python --version`"
+      placeholder: "3.12.3"
+    validations:
+      required: true
+
+  - type: input
+    id: langgraph-version
+    attributes:
+      label: LangGraph / langchain-core version (if applicable)
+      description: "`pip show langgraph langchain-core | grep Version`"
+      placeholder: "langgraph 1.2.5 / langchain-core 1.4.7"
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS 15.5 / Ubuntu 24.04 / Windows 11"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else that might help — lg2m.toml snippet, graph code, Markdown contract excerpt.

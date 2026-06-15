@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Coverage
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# IDE / editor
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+.claude/*
+!.claude/commands/
+.claude/commands/*
+!.claude/commands/agent-os/
+.claude/commands/agent-os/*
+!.claude/commands/agent-os/*.md

@@ -1,0 +1,6 @@
+# Runtime dependencies for the runnable support_pipeline_native examples.
+# Unpinned on purpose: these are illustrative samples, not a release artifact.
+langgraph
+langchain-core
+pydantic
+typing_extensions

@@ -1,0 +1,13 @@
+# lg2m config for the support_pipeline graph (Model-A generated routing).
+#
+# lg2m never builds your graph. It imports the factory named below, compiles it,
+# reads the real topology with compiled.get_graph(), and diffs that against
+# docs/support_pipeline.md. The code under src/ carries lg2m annotations
+# (@node / @predicate / lg2m.router / @state_model / @data_model); the wiring in
+# graph.py is still native LangGraph.
+
+[tool.lg2m.graphs.support_pipeline]
+graph = "support_pipeline.graph:build_graph"   # module:callable -> CompiledStateGraph
+markdown = "docs/support_pipeline.md"
+sys_path = ["src"]                             # roots added to sys.path before import
+xray = true                                    # flatten the investigate subgraph
