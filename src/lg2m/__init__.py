@@ -6,6 +6,13 @@ framework: the annotation layer is framework-free, and the LangGraph introspecto
 lives behind the optional ``[langgraph]`` extra.
 """
 
+from importlib.metadata import PackageNotFoundError, version as _pkg_version
+
+try:
+    __version__ = _pkg_version("langgraph-to-from-mermaid")
+except PackageNotFoundError:
+    __version__ = "unknown"
+
 from lg2m.annotations.decorators import data_model, node, predicate, state_model
 from lg2m.annotations.router import ELSE, router
 from lg2m.ir import (
