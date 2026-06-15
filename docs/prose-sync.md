@@ -1,12 +1,12 @@
 # lg2m: keeping documentation (prose) in sync
 
-> Design note for a future, optional feature. It is **not** part of any
-> drift-checked contract and is **out of scope for lg2m v1** (see `docs/design.md`
-> Section 12); v1 only *reports* `PROSE_DRIFT`. It describes how an optional
-> two-way **prose** sync (a write-only `lg2m sync` verb) would work. It lives at
-> the repo-level `docs/` rather than under `examples/` because it is
-> forward-looking design, not a runnable example artifact. The worked example it
-> draws on is `examples/support_pipeline/`, whose drift-checked contract is
+> Design note for the `lg2m sync` verb, shipped in v0.1.0. The `sync` verb is an
+> optional, write-only command that is **not** part of the drift-checked contract;
+> `check` still only *reports* `PROSE_DRIFT` and never writes. This document
+> captures the design decisions that shaped the implementation and lives at
+> `docs/` rather than under `examples/` because it is design context, not a
+> runnable artifact. The worked example it draws on is `examples/support_pipeline/`,
+> whose drift-checked contract is
 > `examples/support_pipeline/docs/support_pipeline.md`.
 
 ## The thing that makes prose different from everything else

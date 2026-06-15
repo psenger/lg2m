@@ -1,15 +1,12 @@
 # Example: support_pipeline (lg2m annotations + introspection)
 
-A mock of a project that uses lg2m. The code under `src/` is native LangGraph
+A project that uses lg2m. The code under `src/` is native LangGraph
 **plus lg2m annotations** that link each function to the diagram and markdown,
 name the leaf conditions, and declare the conditional fan-out as a generated
-router. lg2m is not built yet, so the `lg2m ...` transcript below is an
-illustrative mock.
+router. Run `lg2m check` from this directory to see a clean reconcile.
 
 Contrast with `examples/support_pipeline_native`: the same graph with no
-annotations and no lg2m dependency (that one is runnable today). This one imports
-lg2m for the decorators and `lg2m.router`, so it is illustrative until the tool
-exists.
+annotations and no lg2m dependency.
 
 This example exercises the full surface of the design: a chain in, a parallel
 fork/join with a reducer-governed merge, a generated conditional fan-out with a
@@ -104,10 +101,9 @@ examples/support_pipeline/
     __init__.py
 ```
 
-## Caveats
+## Notes
 
-- The `lg2m ...` transcript is a mock; the tool is not built yet.
-- Unlike `support_pipeline_native`, this code imports `lg2m` for the decorators
-  and `lg2m.router`, so it will not import or run until the lg2m package exists.
 - The decorators are metadata-only: they record linking information and return
   their target unchanged, so they do not change the graph's behavior.
+- Install `lg2m` (with the `[langgraph]` extra) before running `lg2m check`:
+  `pip install "langgraph-to-from-mermaid[langgraph]"`.

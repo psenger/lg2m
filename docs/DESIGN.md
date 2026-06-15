@@ -236,7 +236,7 @@ The diagram labels the conditional edges `should_escalate`, `should_auto_resolve
 
 ## 11. CLI (`cli.py`, Typer)
 
-`init`, `list`, `validate` (each side parses; entry point imports; one state model; every fan-out has `[else]`), `check [--format text|json] [--strict] [--no-prose]`, `gen --from-doc | --from-code`. Exit `0` clean, `1` drift / structural error, `2` usage/config error.
+`init`, `list`, `validate` (each side parses; entry point imports; one state model; every fan-out has `[else]`), `check [--format text|json] [--strict] [--no-prose]`, `gen --from-doc | --from-code`, `sync [--prefer code|doc] [--dry-run]`. Exit `0` clean, `1` drift / structural error, `2` usage/config error.
 
 ## 12. Limitations (state in the README)
 

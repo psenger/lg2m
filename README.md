@@ -4,7 +4,7 @@
 
 **Keep your LangGraph or LangChain graph and its Mermaid diagram in sync, both ways, and fail the build when they drift.**
 
-![status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange)
+![version: 0.1.0](https://img.shields.io/badge/version-0.1.0-blue)
 ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 [Installation](#installation) • [How it works](#how-it-works) • [The CLI](#the-cli) • [Scope](#langgraph-and-langchain-scope) • [Run an example](#try-the-runnable-example) • [Roadmap](#status-and-roadmap)
@@ -14,16 +14,16 @@
 ---
 
 > [!NOTE]
-> **Pre-alpha.** The package is built and green end-to-end: the intermediate
+> **v0.1.0.** The package is built and green end-to-end: the intermediate
 > representation, the config loader, the Markdown / Mermaid parsers, the annotation
 > decorators and `router`, the diff and report engine, the real LangGraph introspector,
 > the Typer CLI, code/contract generation (`scaffold/` + `gen`), and prose sync
 > (`sync` verb with `.lg2m.lock` baseline). The CLI ships `check`, `validate`,
-> `list`, `init`, `gen`, and `sync`. Not yet released to PyPI — see
-> [Installation](#installation) for how to install from a GitHub tag or a clone. The
-> annotated example checks clean under `lg2m check`; the plain native example
-> ([below](#try-the-runnable-example)) runs today. The design lives in
-> [`docs/design.md`](docs/design.md) and the competitive landscape in [`PRIOR-ART.md`](PRIOR-ART.md).
+> `list`, `init`, `gen`, and `sync`. Install from PyPI or a GitHub tag — see
+> [Installation](#installation). The annotated example checks clean under `lg2m check`;
+> the plain native example ([below](#try-the-runnable-example)) runs today. The design
+> lives in [`docs/design.md`](docs/design.md) and the competitive landscape in
+> [`PRIOR-ART.md`](PRIOR-ART.md).
 
 `lg2m` (`langgraph_to_from_mermaid`) is a Python package and CLI that
 treats a Mermaid `stateDiagram-v2`, written in Markdown, as a checkable contract
@@ -40,9 +40,7 @@ among existing tools.
 
 ## Installation
 
-`lg2m` is pre-alpha and not yet on PyPI. Three ways to install:
-
-**From PyPI** (once released):
+**From PyPI:**
 
 ```bash
 pip install langgraph-to-from-mermaid
@@ -54,7 +52,7 @@ Add the `[langgraph]` extra to enable `lg2m check` and the real introspector:
 pip install "langgraph-to-from-mermaid[langgraph]"
 ```
 
-**From a GitHub release tag** (available now, no PyPI needed):
+**From a GitHub release tag** (no PyPI needed):
 
 ```bash
 pip install "git+https://github.com/psenger/langgraph_to_from_mermaid.git@vX.Y.Z"
@@ -190,11 +188,13 @@ The CLI ships today (see [`docs/design.md`](docs/design.md) Section 11). Configu
 | `check` | reconcile topology, annotations, and the diagram; non-zero on drift |
 | `gen --from-doc` | scaffold annotated code from the Markdown contract |
 | `gen --from-code` | scaffold the Markdown contract from code plus annotations |
+| `sync` | write prose back across the code/doc boundary using a `.lg2m.lock` baseline |
 
 Exit codes: `0` clean, `1` drift or structural error, `2` usage or config error.
 `gen` emits LangGraph today; LangChain emission is on the roadmap (the routing model
 compiles to both). `gen` writes only where asked: `--out` writes files and refuses to
-overwrite, and without it the output is a stdout dry-run.
+overwrite, and without it the output is a stdout dry-run. `sync` supports `--prefer
+code|doc` conflict resolution and `--dry-run`.
 
 ## LangGraph and LangChain scope
 
@@ -226,7 +226,8 @@ against it for a clean reconcile.
 
 ## Status and roadmap
 
-Pre-alpha. The build order from [`docs/design.md`](docs/design.md) Section 13 is complete and green:
+v0.1.0 — all layers shipped and green. The build order from [`docs/design.md`](docs/design.md)
+Section 13 is complete:
 
 1. **Done.** IR, config loader, and the Markdown / Mermaid parsers (no framework import).
 2. **Done.** Annotations and the `router`, the diff engine, and the reports; reconciliation
@@ -238,8 +239,7 @@ Pre-alpha. The build order from [`docs/design.md`](docs/design.md) Section 13 is
    merge, conflict detection, `--prefer code|doc` resolution, and `--dry-run`.
 
 Next: LangChain code emission, full subgraph / `Send` / `Command` round-trip fidelity, and a
-version-matrix CI across LangGraph / langchain-core releases. Nothing here is released to PyPI
-and the public API may change.
+version-matrix CI across LangGraph / langchain-core releases.
 
 ## Repository layout
 

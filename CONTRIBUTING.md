@@ -1,7 +1,7 @@
 # Contributing to `lg2m`
 
-Thanks for your interest in `langgraph_to_from_mermaid`. This is a pre-alpha project under
-active development on `main`. The design is settled in [`docs/design.md`](docs/design.md); read it (and
+Thanks for your interest in `langgraph_to_from_mermaid`. The v0.1.0 release is on PyPI and
+development continues on `main`. The design is settled in [`docs/design.md`](docs/design.md); read it (and
 [`CLAUDE.md`](CLAUDE.md) for the architecture) before a substantial change.
 
 ## 1. Open an issue first
@@ -59,7 +59,7 @@ push directly to `main`.
 
 ## 4. Coding standards
 
-- The package is **framework-free** except the (future) LangGraph introspector. Importing
+- The package is **framework-free** except the LangGraph introspector. Importing
   `lg2m` must not import `langgraph` or `langchain_core`; only
   `introspect/langgraph_adapter.py` may, behind the `[langgraph]` extra. Do not add a
   framework import anywhere else.
@@ -184,8 +184,7 @@ ruff check src tests         # lint must be clean
 Then:
 
 1. **Bump the version** in `pyproject.toml` (`version = "X.Y.Z"`). The project follows
-   `MAJOR.MINOR.PATCH` (semver). While in pre-alpha, increment the patch for every
-   release.
+   `MAJOR.MINOR.PATCH` (semver).
 2. **Commit the version bump** on `main`:
    ```bash
    git add pyproject.toml
@@ -254,11 +253,8 @@ rm -rf /tmp/check-lg2m
 
 ### 5.6 Future: Trusted Publishing (GitHub Actions)
 
-Once the CLI ships, the preferred path is PyPI
+The preferred future path is PyPI
 [Trusted Publishing](https://docs.pypi.org/trusted-publishers/): a tagged GitHub Actions
 workflow authenticates via OIDC and uploads the build automatically, so no API token ever
 lives on a laptop. The manual `twine` flow above is the fallback until that workflow is
 wired up.
-
-Once `cli.py` and its `[project.scripts]` entry land, installing the published package
-puts the `lg2m` command on the user's `PATH`.

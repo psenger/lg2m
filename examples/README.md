@@ -3,9 +3,9 @@
 A worked example of the `langgraph_to_from_mermaid` (`lg2m`) design from the
 repo-root `docs/design.md`. It comes as a **pair**: a native version (plain LangGraph /
 LangChain, the "before lg2m" code a developer writes today) and an lg2m-applied
-version (the same graph annotated, plus its Mermaid + Markdown contract). The
-native version runs; the lg2m-applied version imports the `lg2m` package, which
-is not built yet, so it is illustrative and its `lg2m ...` transcripts are mocks.
+version (the same graph annotated, plus its Mermaid + Markdown contract). Both
+versions run; the native version has no lg2m dependency, while the applied version
+imports `lg2m` for annotations and checks clean under `lg2m check`.
 
 ## The pair: `support_pipeline_native` + `support_pipeline`
 
@@ -14,7 +14,7 @@ One connected graph designed to cross **every boundary the plan names, once**.
 | | directory | runs? | what it is |
 | --- | --- | --- | --- |
 | native | `support_pipeline_native/` | yes | the full graph in **both** LangGraph (`langgraph_app.py`, complete surface) and LangChain (`langchain_app.py`, the slice LCEL can express), plus `introspect.py` which dumps the topology lg2m reads via `get_graph(xray=True)` |
-| applied | `support_pipeline/` | no (illustrative) | the same graph with lg2m's **Model-A** annotations (`@node`, `@predicate`, `lg2m.router` + `lg2m.ELSE`, `@state_model`, `@data_model`) and `docs/support_pipeline.md`, the topological Mermaid + Markdown-metadata contract |
+| applied | `support_pipeline/` | yes | the same graph with lg2m's **Model-A** annotations (`@node`, `@predicate`, `lg2m.router` + `lg2m.ELSE`, `@state_model`, `@data_model`) and `docs/support_pipeline.md`, the topological Mermaid + Markdown-metadata contract; checks clean under `lg2m check` |
 
 The two halves share an identical topology by construction: `support_pipeline`'s
 `graph.py` is `support_pipeline_native`'s `langgraph_app.py` with annotations
