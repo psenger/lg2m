@@ -27,6 +27,7 @@ from lg2m.parsing.markdown import parse_markdown
 from lg2m.report import render_json, render_text
 from lg2m.report.model import DriftReport
 from lg2m.scaffold import ScaffoldError, generate_code, generate_markdown
+from lg2m.sync import run_sync
 
 try:
     import tomllib  # Python 3.11+
@@ -57,6 +58,11 @@ xray = true                               # flatten subgraphs when reading topol
 class OutputFormat(str, enum.Enum):
     text = "text"
     json = "json"
+
+
+class Prefer(str, enum.Enum):
+    code = "code"
+    doc = "doc"
 
 
 # --- shared resolution helpers (every usage/config failure exits 2) ----------
@@ -132,6 +138,9 @@ _MODEL_STYLE_OPT = typer.Option(
 _OUT_OPT = typer.Option(
     None, "--out", help="write here (dir for --from-doc, file for --from-code); default: stdout"
 )
+_PREFER_OPT = typer.Option(None, "--prefer", help="conflict resolution: code or doc")
+_DRY_RUN_OPT = typer.Option(False, "--dry-run", help="report without writing files")
+_LOCK_OPT = typer.Option(None, "--lock", help="override default .lg2m.lock path")
 
 
 @app.command()
@@ -299,6 +308,49 @@ def _write_text(text: str, out: Path) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(text, encoding="utf-8")
     typer.echo(f"wrote {out}")
+
+
+@app.command()
+def sync(
+    graph_id: str | None = _GRAPH_ID_ARG,
+    config: Path | None = _CONFIG_OPT,
+    prefer: Prefer | None = _PREFER_OPT,
+    dry_run: bool = _DRY_RUN_OPT,
+    lock: Path | None = _LOCK_OPT,
+) -> None:
+    """Reconcile prose between docstrings and the Mermaid contract."""
+    path = _resolve_config(config)
+    gid = _resolve_graph_id(_load_graphs(path), graph_id)
+    try:
+        result = run_sync(
+            path, gid,
+            prefer=prefer.value if prefer else None,
+            dry_run=dry_run,
+            lock_path=lock,
+        )
+    except ConfigError as exc:
+        _fail(f"config error: {exc}")
+    prefix = "(dry run) " if dry_run else ""
+    n_written = len(result.code_written) + len(result.md_written)
+    typer.echo(
+        f"{prefix}{gid}: {n_written} written, "
+        f"{len(result.adopted)} adopted, {len(result.unresolved)} unresolved"
+    )
+    for kind, key in result.code_written:
+        typer.echo(f"  code:     {kind}:{key}")
+    for kind, key in result.md_written:
+        typer.echo(f"  doc:      {kind}:{key}")
+    for kind, key in result.adopted:
+        typer.echo(f"  adopted:  {kind}:{key}")
+    for kind, key in result.conflicts:
+        typer.echo(f"  conflict: {kind}:{key}", err=True)
+    for kind, key in result.raw_prefix_skips:
+        typer.echo(f"  skipped:  {kind}:{key}  (raw prefix)", err=True)
+    for kind, key in result.interleaved_skips:
+        typer.echo(f"  skipped:  {kind}:{key}  (interleaved)", err=True)
+    if result.lock_written:
+        typer.echo("  lock:     updated")
+    raise typer.Exit(result.exit_code)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -247,7 +247,7 @@ The diagram labels the conditional edges `should_escalate`, `should_auto_resolve
 - Verification is **name-level** for both predicates and reducers (matched by `@predicate` name and by reducer object identity / `__name__`). A same-named, different-behavior swap of either passes silently.
 - Post-node predicates are a **constraint lg2m imposes**, not a framework guarantee: a LangGraph `path_fn` sees full state and could read fields the source node never wrote.
 - 1:1 fidelity is cleanest for **newly authored** graphs. Converting an existing hand-written `path_fn` with overlapping conditions into an ordered first-match Model A list is a real authoring step, not a mechanical 1:1.
-- Prose *sync* (a write-back `lg2m sync` verb with a `.lg2m.lock` baseline-hash store, 3-way merge, and conflict policy, as sketched in the `support_pipeline` design note) is **out of scope for v1**: v1 only *reports* `PROSE_DRIFT`, it never writes prose back. That design note lives at the repo-level `docs/prose-sync.md`, kept out of `examples/` (which holds runnable artifacts).
+- Prose *sync* (`lg2m sync`) is **shipped**: a write-back verb with a `.lg2m.lock` baseline-hash store, per-entity 3-way merge, conflict detection, `--prefer code|doc` resolution, and `--dry-run`. The original design notes live at `docs/prose-sync.md`. Hash-only baseline (no `base_text` intra-paragraph merge) and raw/byte-prefixed docstring refusal are documented v1 limitations.
 - `gen` v1 regenerates the **topological core** faithfully (nodes, edges, conditional routers + `[else]`, parallel fan-out/in, the state model and its reducers), but does **not** reconstruct subgraphs, `Send`, or `Command` from the flattened canonical IR. `--from-code` emits canonical flat mermaid: a `parent:child` flattened-subgraph id cannot round-trip through mermaid (the `:` is mermaid's transition-label separator). `--from-doc` leaves a `# TODO` for any conditional edge without a router mapping (the Send/Command edges) and sanitises a `:`-id into a valid function name while preserving the `@node("parent:child")` string. Both directions round-trip **structurally** for subgraph-free graphs (the round-trip goldens use a minimal fixture; the rich example is covered by a lenient smoke). De-canonicalising subgraph/`Send`/`Command` back into diagram sugar is a future layer.
 
 ## 13. Build order
@@ -257,6 +257,7 @@ The diagram labels the conditional edges `should_escalate`, `should_auto_resolve
 3. `introspect/langgraph_adapter.py` + `loader.py` behind the `[langgraph]` extra; `@pytest.mark.langgraph` suite.
 4. `cli.py`.
 5. `scaffold/*` and `gen` (both `--framework` targets); round-trip goldens.
+6. `sync/` package: prose write-back (`sync` verb) with `.lg2m.lock` baseline, 3-way merge, surgical docstring and Markdown writers, `--prefer` conflict resolution, and `--dry-run`.
 
 ## 14. Test strategy (pytest + ruff)
 

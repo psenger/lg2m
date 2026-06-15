@@ -178,19 +178,19 @@ Per-task **Done-when** only (concrete commands/checks). No separate Acceptance-C
 
 ## Task 7: **Phase 6 — CLI command + end-to-end**
 
-- [ ] **Task 7.1: `sync` command in `cli.py`**
-  - [ ] Add `@app.command() def sync(...)` mirroring `gen`: `graph_id` (`_GRAPH_ID_ARG`), `--config` (`_CONFIG_OPT`), `--prefer` (new `Prefer` enum, default none), `--dry-run`, `--lock` (default repo-root `.lg2m.lock`). Module-level `typer.Option` constants (B008). Reuse `_resolve_config` / `_load_graphs` / `_resolve_graph_id` / `_fail`. Exit: `0` synced-or-clean, `1` unresolved conflict, `2` usage/config.
+- [x] **Task 7.1: `sync` command in `cli.py`**
+  - [x] Add `@app.command() def sync(...)` mirroring `gen`: `graph_id` (`_GRAPH_ID_ARG`), `--config` (`_CONFIG_OPT`), `--prefer` (new `Prefer` enum, default none), `--dry-run`, `--lock` (default repo-root `.lg2m.lock`). Module-level `typer.Option` constants (B008). Reuse `_resolve_config` / `_load_graphs` / `_resolve_graph_id` / `_fail`. Exit: `0` synced-or-clean, `1` unresolved conflict, `2` usage/config.
 
   ### Done when
-  - [ ] `tests/test_cli_sync.py` via `CliRunner`: `--dry-run` writes nothing, exit 0; unresolved conflict exit 1; bad config exit 2 (mirrors `tests/test_cli_gen.py`).
-  - [ ] `./.venv/bin/python -m pytest tests/test_cli_sync.py --no-cov -q` green.
+  - [x] `tests/test_cli_sync.py` via `CliRunner`: `--dry-run` writes nothing, exit 0; unresolved conflict exit 1; bad config exit 2 (mirrors `tests/test_cli_gen.py`).
+  - [x] `./.venv/bin/python -m pytest tests/test_cli_sync.py --no-cov -q` green.
 
-- [ ] **Task 7.2: End-to-end on a copy of `examples/support_pipeline/`**
-  - [ ] `tests/test_sync_e2e.py`: copy the example into `tmp_path`; drift one node's md prose → `sync` → assert the docstring matches (normalized); drift one predicate's docstring → `sync` → assert md updated; `sync` again → no writes, `.lg2m.lock` byte-stable; assert `_check_prose` reports **no** `PROSE_DRIFT` after.
+- [x] **Task 7.2: End-to-end on a copy of `examples/support_pipeline/`**
+  - [x] `tests/test_sync_e2e.py`: copy the example into `tmp_path`; drift one node's md prose → `sync` → assert the docstring matches (normalized); drift one predicate's docstring → `sync` → assert md updated; `sync` again → no writes, `.lg2m.lock` byte-stable; assert `_check_prose` reports **no** `PROSE_DRIFT` after.
 
   ### Done when
-  - [ ] `tests/test_sync_e2e.py` green.
-  - [ ] Full `./.venv/bin/python -m pytest -q` passes the 90% coverage gate; `./.venv/bin/ruff check src tests` clean.
+  - [x] `tests/test_sync_e2e.py` green.
+  - [x] Full `./.venv/bin/python -m pytest -q` passes the 90% coverage gate; `./.venv/bin/ruff check src tests` clean.
 
 ---
 

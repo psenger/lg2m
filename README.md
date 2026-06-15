@@ -17,8 +17,9 @@
 > **Pre-alpha.** The package is built and green end-to-end: the intermediate
 > representation, the config loader, the Markdown / Mermaid parsers, the annotation
 > decorators and `router`, the diff and report engine, the real LangGraph introspector,
-> the Typer CLI, and code/contract generation (`scaffold/` + `gen`). The CLI ships
-> `check`, `validate`, `list`, `init`, and `gen`. Not yet released to PyPI — see
+> the Typer CLI, code/contract generation (`scaffold/` + `gen`), and prose sync
+> (`sync` verb with `.lg2m.lock` baseline). The CLI ships `check`, `validate`,
+> `list`, `init`, `gen`, and `sync`. Not yet released to PyPI — see
 > [Installation](#installation) for how to install from a GitHub tag or a clone. The
 > annotated example checks clean under `lg2m check`; the plain native example
 > ([below](#try-the-runnable-example)) runs today. The design lives in
@@ -233,11 +234,12 @@ Pre-alpha. The build order from [`docs/design.md`](docs/design.md) Section 13 is
 3. **Done.** The LangGraph introspector behind the `[langgraph]` extra, and a runnable `check`.
 4. **Done.** The Typer CLI (`check`, `validate`, `list`, `init`, `gen`).
 5. **Done.** `gen --from-doc` / `--from-code` with round-trip golden tests (LangGraph emission).
+6. **Done.** `sync` verb: prose write-back with a `.lg2m.lock` baseline-hash store, 3-way
+   merge, conflict detection, `--prefer code|doc` resolution, and `--dry-run`.
 
-Next: LangChain code emission, full subgraph / `Send` / `Command` round-trip fidelity, an
-optional prose `sync` verb ([`docs/prose-sync.md`](docs/prose-sync.md)), and a version-matrix
-CI across LangGraph / langchain-core releases. Nothing here is released and the public API may
-change.
+Next: LangChain code emission, full subgraph / `Send` / `Command` round-trip fidelity, and a
+version-matrix CI across LangGraph / langchain-core releases. Nothing here is released to PyPI
+and the public API may change.
 
 ## Repository layout
 
@@ -248,7 +250,7 @@ change.
   src/lg2m/                    the package: IR, parsers, annotations, router, introspector,
                                diff, report, CLI, and scaffold/ (gen)
   tests/                       the pytest suite (framework-free, plus @langgraph-gated)
-  docs/prose-sync.md           design note for a future, optional prose sync (out of scope for v1)
+  docs/prose-sync.md           design notes that preceded the sync/ implementation
   examples/
     support_pipeline_native/   runnable: the graph in LangGraph + LangChain, before lg2m
     support_pipeline/          the same graph annotated, with its Mermaid/Markdown contract (checks clean)
